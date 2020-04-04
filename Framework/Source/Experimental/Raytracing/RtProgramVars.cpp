@@ -173,6 +173,31 @@ namespace Falcor
         return pVars->applyProgramVarsCommon<true>(pContext, true);
     }
 
+    bool RtProgramVars::apply(RenderContext * pCtx, RtStateObject * pRtso, bool needUpdate)
+    {
+        if (needUpdate)
+        {
+            return apply(pCtx, pRtso);
+        }
+        else
+        {
+            // We always have a ray-gen program, apply it first
+            uint8_t* pRayGenRecord = getRayGenRecordPtr();
+            if (!applyRtProgramVars(pRayGenRecord, mpProgram->getRayGenProgram()->getActiveVersion().get(), pRtso, getRayGenVars().get(), mpRtVarsHelper.get()))
+            {
+                return false;
+            }
+
+            if (!mpGlobalVars->applyProgramVarsCommon<false>(pCtx, true))
+            {
+                return false;
+            }
+
+            pCtx->updateBuffer(mpShaderTable.get(), mShaderTableData.data());
+            return true;
+        }
+    }
+
     bool RtProgramVars::apply(RenderContext* pCtx, RtStateObject* pRtso)
     {
         // We always have a ray-gen program, apply it first
@@ -186,7 +211,7 @@ namespace Falcor
         uint32_t hitCount = mpProgram->getHitProgramCount();
         for (uint32_t h = 0; h < hitCount; h++)
         {
-            if(mpProgram->getHitProgram(h))
+            if (mpProgram->getHitProgram(h))
             {
                 for (uint32_t i = 0; i < mpScene->getGeometryCount(hitCount); i++)
                 {
@@ -201,7 +226,7 @@ namespace Falcor
 
         for (uint32_t m = 0; m < mpProgram->getMissProgramCount(); m++)
         {
-            if(mpProgram->getMissProgram(m))
+            if (mpProgram->getMissProgram(m))
             {
                 uint8_t* pMissRecord = getMissRecordPtr(m);
                 if (!applyRtProgramVars(pMissRecord, mpProgram->getMissProgram(m)->getActiveVersion().get(), pRtso, getMissVars(m).get(), mpRtVarsHelper.get()))

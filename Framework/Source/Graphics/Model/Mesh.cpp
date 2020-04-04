@@ -25,6 +25,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***************************************************************************/
+
+/*
+ * Modified by Niko Wissmann
+ */
+
 #include "Framework.h"
 #include "Mesh.h"
 #include "Model.h"
@@ -80,6 +85,9 @@ namespace Falcor
             break;
         case Vao::Topology::TriangleList:
             VertsPerPrim = 3;
+            break;
+        case Vao::Topology::Quad4Patch:
+            VertsPerPrim = 4;
             break;
         default:
             should_not_get_here();

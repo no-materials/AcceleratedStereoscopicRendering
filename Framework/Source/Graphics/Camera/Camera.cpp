@@ -136,6 +136,15 @@ namespace Falcor
             const float vlen = mData.focalDistance * tanf(fovY * 0.5f);
             mData.cameraV *= vlen;
 
+            // Reprojection Warp Matrix
+            mData.reprojectionMat = mData.rightEyeViewProjMat * mData.invViewProj;
+
+            // Custom Field Calculation for correct(!) stereo Rendering
+            glm::mat4 invViewLeft = glm::inverse(mData.viewMat);
+            glm::mat4 invViewRight = glm::inverse(mData.rightEyeViewMat);
+            mData.posWLeft = glm::vec3(invViewLeft[3][0], invViewLeft[3][1], invViewLeft[3][2]);
+            mData.posWRight = glm::vec3(invViewRight[3][0], invViewRight[3][1], invViewRight[3][2]);
+
             mDirty = false;
         }
     }

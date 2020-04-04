@@ -1,5 +1,5 @@
 /***************************************************************************
-# Copyright (c) 2015, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -25,34 +25,43 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***************************************************************************/
+
 /*
- * Modified by Niko Wissmann.
+ * Modified by: Niko Wissmann
  */
 
-#define VERTEX_POSITION_LOC         0
-#define VERTEX_NORMAL_LOC           1
-#define VERTEX_BITANGENT_LOC        2
-#define VERTEX_TEXCOORD_LOC         3
-#define VERTEX_LIGHTMAP_UV_LOC      4
-#define VERTEX_BONE_WEIGHT_LOC      5
-#define VERTEX_BONE_ID_LOC          6
-#define VERTEX_DIFFUSE_COLOR_LOC    7
-#define VERTEX_PREV_POSITION_LOC    8
+import Shading;
 
-#define VERTEX_LOCATION_COUNT       9
+#define LeftEye      0
+#define RightEye     1
 
-#define VERTEX_QUADID_LOC           10
+cbuffer PerImageCB
+{
+    uint gStereoTarget;
+};
 
-#define VERTEX_USER_ELEM_COUNT      4
-#define VERTEX_USER0_LOC            (VERTEX_LOCATION_COUNT)
+struct GBufferOut
+{
+    float4 posW             : SV_TARGET0;
+    float4 normW            : SV_TARGET1;
+    float4 diffuseOpacity   : SV_TARGET2;
+    float4 specRough        : SV_TARGET3;
+};
 
-#define VERTEX_POSITION_NAME        "POSITION"
-#define VERTEX_NORMAL_NAME          "NORMAL"
-#define VERTEX_BITANGENT_NAME       "BITANGENT"
-#define VERTEX_TEXCOORD_NAME        "TEXCOORD"
-#define VERTEX_LIGHTMAP_UV_NAME     "LIGHTMAP_UV"
-#define VERTEX_BONE_WEIGHT_NAME     "BONE_WEIGHTS"
-#define VERTEX_BONE_ID_NAME         "BONE_IDS"
-#define VERTEX_DIFFUSE_COLOR_NAME   "DIFFUSE_COLOR"
-#define VERTEX_PREV_POSITION_NAME   "PREV_POSITION"
-#define VERTEX_QUADID_NAME          "QUADID"
+GBufferOut main(VertexOut vsOut)
+{
+    ShadingData sd;
+
+    if(gStereoTarget == LeftEye)
+        sd = prepareShadingData(vsOut, gMaterial, gCamera.posWLeft);
+    else
+        sd = prepareShadingData(vsOut, gMaterial, gCamera.posWRight);
+
+    GBufferOut gOut;
+    gOut.posW           = float4(sd.posW, 1.f);
+    gOut.normW          = float4(sd.N, 0.f);
+    gOut.diffuseOpacity = float4(sd.diffuse, sd.opacity);
+    gOut.specRough      = float4(sd.specular, sd.linearRoughness);
+
+    return gOut;
+}

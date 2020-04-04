@@ -25,6 +25,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***************************************************************************/
+
+/*
+ * Modified by Niko Wissmann
+ */
+
 #ifndef _HOST_DEVICE_SHARED_CODE_H
 #define _HOST_DEVICE_SHARED_CODE_H
 
@@ -96,6 +101,15 @@ struct CameraData
     float4x4 rightEyeProjMat;
     float4x4 rightEyeViewProjMat;
     float4x4 rightEyePrevViewProjMat;
+
+    //Niko Wissmann - Custom Fields for Stereo usage
+    float4x4 reprojectionMat;
+
+    float3   posWLeft;
+    float   _padding2;
+
+    float3   posWRight;
+    float   _padding3;
 };
 
 /*******************************************************************

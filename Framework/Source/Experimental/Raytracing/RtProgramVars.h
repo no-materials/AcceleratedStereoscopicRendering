@@ -53,6 +53,7 @@ namespace Falcor
         const GraphicsVars::SharedPtr& getGlobalVars() { return mpGlobalVars; }
 
         bool apply(RenderContext* pCtx, RtStateObject* pRtso);
+        bool apply(RenderContext* pCtx, RtStateObject* pRtso, bool needUpdate);
 
         Buffer::SharedPtr getShaderTable() const { return mpShaderTable; }
         uint32_t getRecordSize() const { return mRecordSize; }

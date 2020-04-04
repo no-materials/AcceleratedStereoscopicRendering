@@ -1,5 +1,5 @@
 /***************************************************************************
-# Copyright (c) 2015, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -25,34 +25,45 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***************************************************************************/
+
 /*
- * Modified by Niko Wissmann.
+ * Modified by: Niko Wissmann
  */
 
-#define VERTEX_POSITION_LOC         0
-#define VERTEX_NORMAL_LOC           1
-#define VERTEX_BITANGENT_LOC        2
-#define VERTEX_TEXCOORD_LOC         3
-#define VERTEX_LIGHTMAP_UV_LOC      4
-#define VERTEX_BONE_WEIGHT_LOC      5
-#define VERTEX_BONE_ID_LOC          6
-#define VERTEX_DIFFUSE_COLOR_LOC    7
-#define VERTEX_PREV_POSITION_LOC    8
+#pragma once
+#include "Falcor.h"
 
-#define VERTEX_LOCATION_COUNT       9
+using namespace Falcor;
 
-#define VERTEX_QUADID_LOC           10
+class GBufferRaster : public RenderPass, inherit_shared_from_this<RenderPass, GBufferRaster>
+{
+public:
+    using SharedPtr = std::shared_ptr<GBufferRaster>;
 
-#define VERTEX_USER_ELEM_COUNT      4
-#define VERTEX_USER0_LOC            (VERTEX_LOCATION_COUNT)
+    static SharedPtr create(const Dictionary& dict = {});
 
-#define VERTEX_POSITION_NAME        "POSITION"
-#define VERTEX_NORMAL_NAME          "NORMAL"
-#define VERTEX_BITANGENT_NAME       "BITANGENT"
-#define VERTEX_TEXCOORD_NAME        "TEXCOORD"
-#define VERTEX_LIGHTMAP_UV_NAME     "LIGHTMAP_UV"
-#define VERTEX_BONE_WEIGHT_NAME     "BONE_WEIGHTS"
-#define VERTEX_BONE_ID_NAME         "BONE_IDS"
-#define VERTEX_DIFFUSE_COLOR_NAME   "DIFFUSE_COLOR"
-#define VERTEX_PREV_POSITION_NAME   "PREV_POSITION"
-#define VERTEX_QUADID_NAME          "QUADID"
+    RenderPassReflection reflect() const override;
+    void execute(RenderContext* pContext, const RenderData* pRenderData) override;
+    void renderUI(Gui* pGui, const char* uiGroup) override;
+    Dictionary getScriptingDictionary() const override;
+    void onResize(uint32_t width, uint32_t height) override;
+    void setScene(const std::shared_ptr<Scene>& pScene) override;
+    std::string getDesc(void) override { return "Raster GBuffer generation"; }
+private:
+    GBufferRaster();
+    void setCullMode(RasterizerState::CullMode mode);
+    bool parseDictionary(const Dictionary& dict);
+
+    GraphicsState::SharedPtr                mpGraphicsState;
+    SceneRenderer::SharedPtr                mpSceneRenderer;
+    Fbo::SharedPtr                          mpFbo;
+    RasterizerState::CullMode               mCullMode = RasterizerState::CullMode::Back;
+
+    // Rasterization resources
+    struct
+    {
+        GraphicsState::SharedPtr pState;
+        GraphicsProgram::SharedPtr pProgram;
+        GraphicsVars::SharedPtr pVars;
+    } mRaster;
+};

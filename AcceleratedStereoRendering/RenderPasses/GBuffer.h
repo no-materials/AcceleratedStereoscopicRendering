@@ -1,5 +1,5 @@
 /***************************************************************************
-# Copyright (c) 2015, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2018, NVIDIA CORPORATION. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -25,34 +25,42 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***************************************************************************/
+
 /*
- * Modified by Niko Wissmann.
+ * Modified by: Niko Wissmann
  */
 
-#define VERTEX_POSITION_LOC         0
-#define VERTEX_NORMAL_LOC           1
-#define VERTEX_BITANGENT_LOC        2
-#define VERTEX_TEXCOORD_LOC         3
-#define VERTEX_LIGHTMAP_UV_LOC      4
-#define VERTEX_BONE_WEIGHT_LOC      5
-#define VERTEX_BONE_ID_LOC          6
-#define VERTEX_DIFFUSE_COLOR_LOC    7
-#define VERTEX_PREV_POSITION_LOC    8
+#pragma once
+#include "Falcor.h"
 
-#define VERTEX_LOCATION_COUNT       9
+// GBuffer channel metadata
+struct GBufferChannelDesc
+{
+    const char*   name;     // Canonical channel name
+    const char*   desc;     // Human-readable channel description
+    const char*   texname;  // Name of corresponding ITexture2D in GBufferRT shader code
+};
 
-#define VERTEX_QUADID_LOC           10
+// Note that channel order should correspond to SV_TARGET index order used in
+// GBufferRaster's primary fragment shader.
+static const std::vector<GBufferChannelDesc> kGBufferChannelDesc({
+        {"posW",            "world space position",         "gPosW"             },
+        {"normW",           "world space normal",           "gNormW"            },
+        //{"bitangentW",      "world space bitangent",        "gBitangentW"       },
+        //{"texC",            "texture coordinates",          "gTexC"             },
+        {"diffuseOpacity",  "diffuse color and opacity",    "gDiffuseOpacity"   },
+        {"specRough",       "specular color and roughness", "gSpecRough"        },
+        //{"emissive",        "emissive color",               "gEmissive"         },
+        //{"matlExtra",       "additional material data",     "gMatlExtra"        }
+        });
 
-#define VERTEX_USER_ELEM_COUNT      4
-#define VERTEX_USER0_LOC            (VERTEX_LOCATION_COUNT)
+// Culling dictionary key and dropdown mode selection
+static const std::string kCull = "cull";
 
-#define VERTEX_POSITION_NAME        "POSITION"
-#define VERTEX_NORMAL_NAME          "NORMAL"
-#define VERTEX_BITANGENT_NAME       "BITANGENT"
-#define VERTEX_TEXCOORD_NAME        "TEXCOORD"
-#define VERTEX_LIGHTMAP_UV_NAME     "LIGHTMAP_UV"
-#define VERTEX_BONE_WEIGHT_NAME     "BONE_WEIGHTS"
-#define VERTEX_BONE_ID_NAME         "BONE_IDS"
-#define VERTEX_DIFFUSE_COLOR_NAME   "DIFFUSE_COLOR"
-#define VERTEX_PREV_POSITION_NAME   "PREV_POSITION"
-#define VERTEX_QUADID_NAME          "QUADID"
+static const Falcor::Gui::DropdownList kCullModeList =
+{
+    { (uint32_t)Falcor::RasterizerState::CullMode::None, "None" },
+    { (uint32_t)Falcor::RasterizerState::CullMode::Back, "Back" },
+    { (uint32_t)Falcor::RasterizerState::CullMode::Front, "Front" },
+};
+

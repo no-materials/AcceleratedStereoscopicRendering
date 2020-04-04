@@ -25,6 +25,10 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***************************************************************************/
+/*
+ * Modified by Niko Wissmann
+ */
+
 #pragma  once
 
 #include <vector>
@@ -76,6 +80,8 @@ namespace Falcor
             return D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
         case Vao::Topology::TriangleStrip:
             return D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP;
+        case Vao::Topology::Quad4Patch:
+            return D3D11_PRIMITIVE_TOPOLOGY_4_CONTROL_POINT_PATCHLIST;
         default:
             should_not_get_here();
             return D3D_PRIMITIVE_TOPOLOGY_UNDEFINED;

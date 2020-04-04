@@ -25,6 +25,11 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ***************************************************************************/
+
+/*
+ * Modified by Niko Wissmann
+ */
+
 #include "Framework.h"
 #include "GraphicsState.h"
 #include "Graphics/Program/ProgramVars.h"
@@ -43,6 +48,8 @@ namespace Falcor
         case Vao::Topology::TriangleList:
         case Vao::Topology::TriangleStrip:
             return GraphicsStateObject::PrimitiveType::Triangle;
+        case Vao::Topology::Quad4Patch:
+            return GraphicsStateObject::PrimitiveType::Patch;
         default:
             should_not_get_here();
             return GraphicsStateObject::PrimitiveType::Undefined;
