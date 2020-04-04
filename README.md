@@ -1,11 +1,7 @@
-Accelerated Stereo Rendering with Hybrid Reprojection-Based Rasterization and Adaptive Ray-Tracing
-=================
+# Accelerated Stereo Rendering with Hybrid Reprojection-Based Rasterization and Adaptive Ray-Tracing
 Source code for the publication by
 Niko Wißmann, Martin Mišiak, Arnulph Fuhrmann, Marc Erich Latoschik
 In: Proceedings of 27th IEEE Virtual Reality Conference (VR ’20), Atlanta, USA, to be published.
-
-Forked off the 3.2.2 version of the [Falcor framework](https://github.com/NVIDIAGameWorks/Falcor/tree/f2b53b1bb9f8433f3c9e2570d2dc90dcd2440415)
-=================
 
 Prerequisites
 ------------------------
