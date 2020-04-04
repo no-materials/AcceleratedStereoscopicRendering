@@ -9,7 +9,7 @@ Forked off the [Falcor](https://github.com/NVIDIAGameWorks/Falcor/tree/f2b53b1bb
 
 Prerequisites
 ------------------------
-The projects prerequisites are the same as for the said Falcor version. See [here](https://github.com/MartinMisiak/Falcor/blob/AcceleratedStereoRendering_Falcor_3_2_2/Falcor_3_2.md)
+The projects prerequisites are the same as for the said Falcor version. See [here](https://github.com/MartinMisiak/Falcor/blob/AcceleratedStereoRendering_Falcor_3_2_2/Falcor_3_2.md).
 A raytracing enabled GPU is required.
 
 Building The Project
