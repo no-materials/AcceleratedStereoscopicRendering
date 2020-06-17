@@ -29,6 +29,7 @@ DebugOutput::SharedPtr DebugOutput::create(const Dictionary &params)
     return ptr;
 }
 
+
 RenderPassReflection DebugOutput::reflect() const
 {
     RenderPassReflection r;
