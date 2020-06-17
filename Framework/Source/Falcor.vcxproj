@@ -1323,32 +1323,32 @@
     <ProjectGuid>{3B602F0E-3834-4F73-B97D-7DFC91597A98}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Falcor</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugD3D12|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DebugVK|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseD3D12|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseVK|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>false</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -1396,9 +1396,10 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_PROJECT_DIR_=R"($(ProjectDir))";_SCL_SECURE_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;IMGUI_API=__declspec(dllimport);FALCOR_D3D12;WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions);GLM_FORCE_DEPTH_ZERO_TO_ONE</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)\..\Externals\GLM;$(ProjectDir)\..\Externals\GLFW\include;$(ProjectDir)\..\Externals\FreeImage;$(ProjectDir)\..\Externals\ASSIMP\include;$(ProjectDir)\..\Externals\FFMpeg\include;$(ProjectDir)\..\Externals\OculusSDK\LibOVR\Include;$(ProjectDir)\..\Externals\OculusSDK\LibOVRKernel\Src;$(ProjectDir)\..\Externals\OpenVR\headers;$(ProjectDir)\..\Externals\RapidJson\include;$(ProjectDir)\..\Externals\VulkanSDK\Include;$(ProjectDir)\..\Externals\Python\Include;$(ProjectDir)\..\Externals\pybind11\include;$(ProjectDir)\..;$(ProjectDir)\..\Externals\;$(ProjectDir)\..\Externals\nvapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <TreatWarningAsError>true</TreatWarningAsError>
+      <TreatWarningAsError>false</TreatWarningAsError>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
